@@ -4,7 +4,7 @@ from cv_bridge import CvBridge
 from rclpy.node import Node
 from sensor_msgs.msg import Image
 from spinnyrobot.taskmanager import TaskManager, filter_hsv, image_centroid
-from std_msgs.msg import Float32, Empty
+from std_msgs.msg import Float32, Empty, String
 
 bridge = CvBridge()
 
@@ -19,10 +19,11 @@ class SpinnyRobot(Node):
         self.imagepub = self.create_publisher(Image, "/robotcam", 10)
         self.anglepub = self.create_publisher(Float32, "/current_angle", 10)
         self.pubtimer = self.create_timer(1 / 30, self.timer_callback)
-        self.pointpub = self.create_publisher(Empty, "/scored_point", 10)
+        self.pointpub = self.create_publisher(String, "/scored_point", 10)
 
         self.center = 320
-        self.dist = 60
+        self.dist = 5
+        self.count = 0
 
     def angle_sub_callback(self, message: Float32):
         """
@@ -47,9 +48,9 @@ class SpinnyRobot(Node):
 
         if cv.countNonZero(red_mask) > 0:
             x, y = image_centroid(red_mask)
-
-            angle_to_red = x - self.center / float(self.center)
-            self.tm.set_joint_angle(angle_to_red)
+            if not (self.center - self.dist < x < self.center + self.dist):
+                angle_to_red = x - self.center / float(self.center)
+                self.tm.set_joint_angle(angle_to_red)
 
         rendered_image = self.tm.render_image()
         joint_angle = self.tm.get_joint_angle()
@@ -68,7 +69,12 @@ class SpinnyRobot(Node):
         self.anglepub.publish(angle)
 
     def pub_point(self):
-        msg = Empty()
+        print("You got a point!")
+        if self.tm.spin_once:
+            self.count += 1
+        # msg = Empty()
+        msg = String()
+        msg.data = str(self.count)
         self.pointpub.publish(msg)
 
 

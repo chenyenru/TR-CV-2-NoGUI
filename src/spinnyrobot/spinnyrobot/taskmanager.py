@@ -43,7 +43,7 @@ class TaskManager:
         self.last_step_time = time.time()
         self.points = 0
 
-    def spin_once(self):
+    def spin_once(self) -> bool:
         self.csm.spin_slider_angle()
         image = self.csm.render_image()
 
