@@ -48,6 +48,7 @@ class SpinnyRobot(Node):
 
         if cv.countNonZero(red_mask) > 0:
             x, y = image_centroid(red_mask)
+            # Only change camera angle when red cube is not within this range
             if not (self.center - self.dist < x < self.center + self.dist):
                 angle_to_red = x - self.center / float(self.center)
                 self.tm.set_joint_angle(angle_to_red)
