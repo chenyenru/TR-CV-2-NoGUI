@@ -53,29 +53,46 @@ class TaskManager:
         center = 320
         dist = 60
 
-        if (time.time() - self.last_step_time) > (1/240):
+        if (time.time() - self.last_step_time) > (1 / 240):
             p.stepSimulation(self.csm.client_id)
-            print('stepping simulation...')
+            print("stepping simulation...")
             self.last_step_time = time.time()
 
         delta = time.time() - self.last_spun_time
         self.last_spun_time = time.time()
 
+        # Checks if the detected color is within a specified range of the image center
         if center - dist < x < center + dist:
             self.timecounter += delta
+
+        # If this persists for two seconds, then award a point.
         if self.timecounter >= 2:
             self.csm.reset()
             self.points += 1
             print(f"Gained one point! You have {self.points} point(s).")
+
+            # Reset timecounter after the point is awarded
             self.timecounter = 0
             return True
         return False
 
     def render_image(self):
+        """
+        Returns an image captured by CameraSceneManager
+        """
         return self.csm.render_image()
 
     def get_joint_angle(self):
+        """
+        Retrieves the joint angle of the stimulated robot. \n
+        See CameraSceneManager for more info
+        """
         return self.csm.get_angle()
 
     def set_joint_angle(self, angle: float):
+        """
+        Sets the joint angle of the stimulated robot. \n
+        Controls the robot's orientation. \n
+        See CameraSceneManager for more info
+        """
         return self.csm.set_angle(angle)

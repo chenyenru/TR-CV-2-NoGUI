@@ -34,6 +34,9 @@ class CameraSceneManager:
         self.slider_id = p.addUserDebugParameter("pos", -np.pi, np.pi, 0)
 
     def reset(self):
+        """
+        Resets red cube to a random position
+        """
         p.resetBasePositionAndOrientation(
             self.box_id, [-3, (random.random() * -6) + 3, 0.5], [0, 0, 0, 1]
         )
@@ -56,6 +59,9 @@ class CameraSceneManager:
         pass
 
     def set_angle(self, angle: float):
+        """
+        Sets angle of the robotic's specific joint.
+        """
         print(f"setting joint angle: {angle}")
         p.setJointMotorControl2(
             self.bot_id,
@@ -67,6 +73,9 @@ class CameraSceneManager:
         )
 
     def get_angle(self):
+        """
+        Gets current angle of the same joint
+        """
         theta, *_ = p.getJointState(self.bot_id, 1, physicsClientId=self.client_id)
         return theta
 
