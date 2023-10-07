@@ -1,5 +1,5 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/lAj96rKz)
-# TR-CV-1
+# TR-CV-2
 Second Training Module for TR CV Recruits
 
 ## Task Overview
@@ -72,3 +72,12 @@ rob == /robotcam ==> sol;
 rob == /current_angle ==> sol;
 rob == /scored_point ==> sol;
 ```
+
+## The Plan
+
+### Plan 1 The Cube is red
+The cube is red.
+We want to focus on the red.
+We find the red area.
+
+### Plan 2 Image Filter. 

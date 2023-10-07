@@ -46,6 +46,8 @@ class TaskManager:
     def spin_once(self):
         self.csm.spin_slider_angle()
         image = self.csm.render_image()
+
+        # Converts image to HSV Color Space
         hsvimage = cv.cvtColor(image, cv.COLOR_BGR2HSV)
         himage = filter_hsv(hsvimage, [0, 255, 153], 20)
         x, y = image_centroid(himage)
